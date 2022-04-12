@@ -5,7 +5,7 @@ import asyncio
 import os
 
 client = discord.Client()
-TOKEN = ""
+TOKEN = 
 channelid_list = [962207533760647168,962192453459394581,962192523521060904,962195999894413332,962196080668323890,962196045130002432,962196112435982358,962196159017918464]#入学年選択,学部選択,学科選択
 reactionamount_list = [4,6,4,5,5,3,5,2]#リアクション必要数
 reacitons_list = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣'] #リアクション配列
@@ -81,7 +81,6 @@ async def on_message(message):
     if message.author.bot:
         return
     if message.content.startswith('/rolereset'):
-        print('aaaa')
         user = message.author
         for j in itjirole_list:
             role = discord.utils.find(lambda r: r.id == j,user.guild.roles)
@@ -96,5 +95,17 @@ async def on_message(message):
     member_count = message.guild.member_count 
     GuildName = f'静大交流鯖 {str(member_count)}Members'
     await message.guild.edit(name=GuildName)
+
+async def rolerest(user):
+    for j in itjirole_list:
+        role = discord.utils.find(lambda r: r.id == j,user.guild.roles)
+        await user.remove_roles(role)
+    for j in sum(roles_list,[]):
+        role = discord.utils.find(lambda r: r.id == j,user.guild.roles)
+        await user.remove_roles(role)
+    for j in karirole_list:
+        role = discord.utils.find(lambda r: r.id == j,user.guild.roles)
+        await user.remove_roles(role)
+    return
 
 client.run(TOKEN)
