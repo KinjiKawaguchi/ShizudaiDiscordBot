@@ -7,7 +7,7 @@ import os
 err_noperm= "あなたにはこのコマンドを実行する権限がありません"
 
 client = discord.Client()
-TOKEN = "OTYxNjEwMTE0NTU5NzgyOTQy.Yk7fNQ.YwkKTIuRqntXTaTkCo8dJzCjY90"
+TOKEN = os.environ.get('TOKEN')
 channelid_list = [962207533760647168,962192453459394581,962192523521060904,962195999894413332,962196080668323890,962196045130002432,962196112435982358,962196159017918464]#入学年選択,学部選択,学科選択
 reactionamount_list = [4,6,4,5,5,3,5,2]#リアクション必要数
 reactions_list = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣'] #リアクション配列
