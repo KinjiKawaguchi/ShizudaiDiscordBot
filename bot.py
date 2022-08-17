@@ -5,7 +5,6 @@ from discord.ext import commands
 import os
 
 err_noperm= "あなたにはこのコマンドを実行する権限がありません"
-
 client = discord.Client()
 TOKEN = os.environ.get('TOKEN')
 channelid_list = [962207533760647168,962192453459394581,962192523521060904,962195999894413332,962196080668323890,962196045130002432,962196112435982358,962196159017918464]#入学年選択,学部選択,学科選択
