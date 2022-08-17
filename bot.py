@@ -1,10 +1,8 @@
 from asyncio.windows_events import ERROR_CONNECTION_ABORTED
 from pickletools import read_unicodestringnl
 import discord
-from discord.ext import commandsAPTX 4869
-import asyncio
+from discord.ext import commands
 import os
-import random
 
 err_noperm= "あなたにはこのコマンドを実行する権限がありません"
 
