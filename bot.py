@@ -5,7 +5,8 @@ from discord.ext import commands
 import os
 
 err_noperm= "あなたにはこのコマンドを実行する権限がありません"
-client = discord.Client()
+intents = discord.Intents.all()
+client = discord.Bot()
 TOKEN = os.environ.get('TOKEN')
 channelid_list = [962207533760647168,962192453459394581,962192523521060904,962195999894413332,962196080668323890,962196045130002432,962196112435982358,962196159017918464]#入学年選択,学部選択,学科選択
 reactionamount_list = [4,6,4,5,5,3,5,2]#リアクション必要数
@@ -20,18 +21,32 @@ homekotoba_list = ["偉い","すごい","勉強できて偉い","生きてるだ
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-    file = open('roleselect.txt','r',encoding='UTF-8')
+
+def get_message(path):
+    file = open(path,'r',encoding='UTF-8')
     messagelist = file.readlines()
+    return messagelist
+    
+@client.slash_command(name="renewal",description="生徒情報登録画面を更新します",commands="renewal")
+async def renewal(ctx):
+    userperm = ctx.user.roles
+    print(userperm)
+    if(not(ctx.user.roles)):
+        await ctx.respond("Admin権限が必要です。")
+        return
+    messagelist = get_message("roleselect.txt")
     i=0
+    client.wait_until_ready()
     for channelid in channelid_list:
         channel = client.get_channel(channelid)
+        print(channel)
         await channel.purge()
         send_msg = await channel.send(messagelist[i])
         for j in range(reactionamount_list[i]):
             await send_msg.add_reaction(reactions_list[j])
         if i!=0:
             await send_msg.add_reaction('⛔')
-        i+=1
+        i+=1    
     #------------------------------------------------------------------------
     channel = client.get_channel(975623166938476574)
     await channel.purge()
@@ -39,7 +54,15 @@ async def on_ready():
     for i in range(2):
         await send_msg.add_reaction(reactions_list[i])
     #------------------------------------------------------------------------
-        
+    await ctx.send("Renealを実行しました")  
+    
+@client.slash_command(name="rolereset", description="生徒情報をリセットします。",commands="rolereset")
+async def rolereest(ctx):
+    revoke(ctx.user)
+    ctx.send("登録をリセットしました。")
+
+
+
 @client.event
 async def on_reaction_add(reaction,user):
     if user.bot:
@@ -126,7 +149,7 @@ async def on_message(message):
     #    msg = f'{message.author.mention}{homekotoba}'
     #    await message.channel.send(msg)
 
-async def rolereset(user):
+async def revoke(user):
     await user.remove_roles(itjirole_list)
     await user.remove_roles(roles_list)
     await user.remove_roles(karirole_list)
